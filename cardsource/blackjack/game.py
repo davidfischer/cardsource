@@ -41,6 +41,19 @@ class BJGame(object):
         
         return False
 
+def game_input(message, values):
+    """
+    Prompts the user for input with the given message and only accepts the 
+    input values in values
+    """
+    
+    intxt = ''
+    
+    while intxt not in values:
+        intxt = raw_input('%s [%s] ' %(message, '/'.join(values)))
+        
+    return intxt
+    
 def main():
     """
     A simple interactive terminal based blackjack game
@@ -60,7 +73,7 @@ def main():
         # if dealer has an ace, the dealer offers insurance
         if game.dealer_upcard().value() >= 10:
             if game.dealer_upcard().value() == 11:
-                insurance = raw_input('Dealer: Would you like to take insurance? [y/n]')
+                insurance = game_input('Dealer: Would you like to take insurance?', ['y', 'n'])
                 # TODO: implement insurance
             
             if game.dealer_has_blackjack():
