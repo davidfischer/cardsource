@@ -1,5 +1,6 @@
 import optparse
 import time
+from cardsource.utils import game_input
 from cardsource.blackjack import BJCard, BJDeck, BJHand, BJShoe
 
 class BJGame(object):
@@ -40,19 +41,6 @@ class BJGame(object):
             return True
         
         return False
-
-def game_input(message, values):
-    """
-    Prompts the user for input with the given message and only accepts the 
-    input values in values
-    """
-    
-    intxt = ''
-    
-    while intxt not in values:
-        intxt = raw_input('%s [%s] ' %(message, '/'.join(values)))
-        
-    return intxt
     
 def main():
     """
@@ -88,9 +76,25 @@ def main():
             else:
                 print '** Dealer collects **'
         else:
-            pass
-            # the player hits/stays/doubles/splits/etc
-            # the dealer hits/stays
+            phand_index = 0
+            while True:
+                # break if the player has no hands remaining
+                if phand_index > len(game.player_hands):
+                    break
+                
+                if game.player_hands[phand_index].value() > 21:
+                    # player has busted
+                    break
+                elif game.player_hands[phand_index].value() == 21:
+                    # player has 21
+                    break
+                elif game.player_hands[phand_index].splittable():
+                    # the player hits/stays/doubles/splits/etc
+                    break
+                else:
+                    # the dealer hits/stays
+                    break
+            
             # the dealer pays/collects/pushes
         
         # check if the shuffle percentage is exceeded
