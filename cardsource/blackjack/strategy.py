@@ -14,6 +14,40 @@ class BJStrategy(object):
     DOUBLE = 'd'
     SPLIT = 't'
     
+    DEFAULT_BET_AMOUNT = 10
+    
+    def __init__(self):
+        self.last_bet = self.DEFAULT_BET_AMOUNT
+    
+    def show_card(self, card):
+        """
+        Notifies the strategy that a certain card is visible. This method can be used
+        to count cards or keep an insurance count. By default, this method does nothing
+        """
+        
+        pass
+    
+    def bet_amount(self, remaining_bankroll):
+        """
+        The amount the player will bet on this hand. Rounds to 2 decimal places.
+        """
+        
+        bet = 0.0
+        
+        while bet <= 0:
+            bet = game_input('How much would you like to wager on this hand? [%0.2f]' %self.last_bet)
+            if len(bet) == 0:
+                bet = self.last_bet
+            
+            try:
+                bet = float(bet)
+            except ValueError:
+                bet = 0
+            
+        bet = round(bet, 2)
+        self.last_bet = bet
+        return bet
+    
     def take_insurance(self):
         """
         Return ``True`` if the player takes insurance and ``False`` otherwise
@@ -24,7 +58,7 @@ class BJStrategy(object):
             return True
         return False
     
-    def make_decision(self, can_double=False, can_split=False):
+    def make_decision(self, dealer_upcard, player_hand, can_double=False, can_split=False):
         """
         Returns one of ``HIT``, ``STAND``, ``DOUBLE`` or ``SPLIT``
         """

@@ -6,6 +6,7 @@ class BJHandError(Exception):
 class BJHand(object):
     def __init__(self):
         self.cards = []
+        self.doubled = False
         
     def __repr__(self):
         return str(self.cards)
@@ -106,3 +107,6 @@ class BJHand(object):
     
     def first_card(self):
         return self.cards[0]
+    
+    def second_card(self):
+        return self.cards[1]
