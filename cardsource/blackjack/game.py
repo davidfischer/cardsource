@@ -1,4 +1,4 @@
-import optparse
+from optparse import OptionParser
 from pprint import pprint
 from cardsource.utils import game_input
 from cardsource.blackjack import BJCard, BJDeck, BJHand, BJShoe, BJStrategy
@@ -224,9 +224,32 @@ class BJGame(object):
                 break
             
 def main():
-    game = BJGame()
+    parser = OptionParser()
+    parser.add_option("-b", "--bankroll", type="int", dest="bankroll", default=10000, help='Starting bankroll [10,000]')
+    parser.add_option("-s", "--shoes", type="int", dest="shoes", default=1000000, help='Number of shoes to play before exiting [1,000,000]')
+    parser.add_option("-d", "--decks", type="int", dest="decks", default=1, help='Number of decks in a shoe [1]')
+    parser.add_option("-t", "--hitsoft17", action="store_true", dest="hitsoft17", default=False, help='Whether the dealer hits soft 17 [False]')
+    parser.add_option("-a", "--das", action="store_true", dest="double_after_split", default=True, help='Whether doubling after splitting is allowed [True]')
+    parser.add_option("-l", "--late-surrender", action="store_true", dest="late_surrender", default=False, help='Whether late surrender is allowed [False]')
+    parser.add_option("-p", "--shuffle", type="float", dest="shuffle_percentage", default=0.35, help='Shuffle when this percentage of the shoe left [0.35]')
+    
+    (options, args) = parser.parse_args()
+    if options.shuffle_percentage < 0.2 or options.shuffle_percentage > 1.0:
+        print 'Defaulting shuffle percentage to %0.2f' %(0.35)
+        options.shuffle_percentage = 0.35
+    
+    game = BJGame(num_decks=options.decks, shuffle_percentage=options.shuffle_percentage, \
+                  hit_soft17=options.hitsoft17, double_after_split=options.double_after_split, \
+                  late_surrender=options.late_surrender)
     strategy = BJStrategy()
-    game.play(strategy)
+    
+    try:
+        game.play(strategy, starting_bankroll=options.bankroll, max_shoes=options.shoes)
+    except KeyboardInterrupt:
+        pass
     
     print
     pprint(game.summary())
+    
+if __name__ == '__main__':
+    main()
