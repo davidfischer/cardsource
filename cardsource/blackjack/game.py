@@ -1,5 +1,4 @@
 from optparse import OptionParser
-from pprint import pprint
 from cardsource.utils import game_input
 from cardsource.blackjack import BJCard, BJDeck, BJHand, BJShoe, BJStrategy
 
@@ -78,6 +77,9 @@ class BJGame(object):
         while True:
             # player chooses bet amount
             print 'Player has $%0.2f remaining' %self.current_bankroll
+            if self.current_bankroll <= 0:
+                break
+            
             wager = strategy.bet_amount(self.current_bankroll)
             
             if wager > self.current_bankroll:
@@ -107,6 +109,7 @@ class BJGame(object):
             # if dealer has an ace, the dealer offers insurance
             if dealer_upcard.value() >= 10:
                 if dealer_upcard.value() == 11:
+                    ## TODO: player cannot take insurance if they can't pay for it
                     insurance = strategy.take_insurance()
                     if insurance:
                         self.current_bankroll -= wager / 2
@@ -161,6 +164,7 @@ class BJGame(object):
                         can_split = (len(self.player_hands) <= self.MAX_SPLITS and current_hand.splittable()) and (self.current_bankroll >= wager)
                         decision = strategy.make_decision(dealer_upcard, current_hand, can_double, can_split)
                         
+                        ## TODO: implement surrender
                         if decision == strategy.HIT:
                             card = self.shoe.pop()
                             current_hand.add_card(card)
@@ -170,6 +174,7 @@ class BJGame(object):
                             self.player_hands.append(new_hand)
                             player_active_hands += 1
                             self.current_bankroll -= wager
+                            ## TODO: implement splitting aces properly
                         elif decision == strategy.DOUBLE:
                             card = self.shoe.pop()
                             current_hand.add_card(card)
@@ -229,7 +234,7 @@ def main():
     parser.add_option("-s", "--shoes", type="int", dest="shoes", default=1000000, help='Number of shoes to play before exiting [1,000,000]')
     parser.add_option("-d", "--decks", type="int", dest="decks", default=1, help='Number of decks in a shoe [1]')
     parser.add_option("-t", "--hitsoft17", action="store_true", dest="hitsoft17", default=False, help='Whether the dealer hits soft 17 [False]')
-    parser.add_option("-a", "--das", action="store_true", dest="double_after_split", default=True, help='Whether doubling after splitting is allowed [True]')
+    parser.add_option("-a", "--no-das", action="store_false", dest="no_das", default=True, help='Double after split is allowed by default [False]')
     parser.add_option("-l", "--late-surrender", action="store_true", dest="late_surrender", default=False, help='Whether late surrender is allowed [False]')
     parser.add_option("-p", "--shuffle", type="float", dest="shuffle_percentage", default=0.35, help='Shuffle when this percentage of the shoe left [0.35]')
     
@@ -239,7 +244,7 @@ def main():
         options.shuffle_percentage = 0.35
     
     game = BJGame(num_decks=options.decks, shuffle_percentage=options.shuffle_percentage, \
-                  hit_soft17=options.hitsoft17, double_after_split=options.double_after_split, \
+                  hit_soft17=options.hitsoft17, double_after_split=(not options.no_das), \
                   late_surrender=options.late_surrender)
     strategy = BJStrategy()
     
@@ -249,7 +254,11 @@ def main():
         pass
     
     print
-    pprint(game.summary())
+    print
+    print 'Summary'
+    summary = game.summary()
+    for key in summary.keys():
+        print '%s: %s' %(key, str(summary[key]))
     
 if __name__ == '__main__':
     main()
