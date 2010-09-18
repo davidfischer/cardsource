@@ -108,6 +108,7 @@ class BJGame(object):
             # if dealer has a ten or ace the dealer checks for a natural
             # if dealer has an ace, the dealer offers insurance
             if dealer_upcard.value() >= 10:
+                insurance = False
                 if dealer_upcard.value() == 11:
                     ## TODO: player cannot take insurance if they can't pay for it
                     insurance = strategy.take_insurance()
