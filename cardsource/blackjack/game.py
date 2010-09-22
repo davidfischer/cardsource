@@ -128,6 +128,7 @@ class BJGame(object):
                 # player either pushes or loses
                 if self._player_has_blackjack():
                     print 'Dealer: Push'
+                    self.current_bankroll += wager
                 else:
                     print '** Dealer collects **'
             elif self._player_has_blackjack():
