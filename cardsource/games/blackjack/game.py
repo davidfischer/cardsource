@@ -1,6 +1,6 @@
 from optparse import OptionParser
-from cardsource.utils import game_input
-from cardsource.blackjack import BJCard, BJDeck, BJHand, BJShoe, BJStrategy
+from .utils import game_input
+from . import BJCard, BJDeck, BJHand, BJShoe, BJStrategy
 
 class BJGame(object):
     """

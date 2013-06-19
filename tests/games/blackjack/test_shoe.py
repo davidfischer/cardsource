@@ -1,6 +1,6 @@
 import unittest
 
-from cardsource.blackjack import BJShoe
+from cardsource.games.blackjack import BJShoe
 
 class TestShoe(unittest.TestCase):
     def setUp(self):

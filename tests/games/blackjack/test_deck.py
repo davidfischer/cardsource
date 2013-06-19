@@ -1,6 +1,6 @@
 import unittest
 
-from cardsource.blackjack.deck import BJDeck
+from cardsource.games.blackjack.deck import BJDeck
 
 class TestDeck(unittest.TestCase):
     def testCreate(self):

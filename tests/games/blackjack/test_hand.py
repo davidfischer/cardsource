@@ -1,8 +1,8 @@
 import unittest
 
 from cardsource.cards import Card
-from cardsource.blackjack import BJCard
-from cardsource.blackjack.hand import BJHand, BJHandError
+from cardsource.games.blackjack import BJCard
+from cardsource.games.blackjack.hand import BJHand, BJHandError
 
 class TestBJHand(unittest.TestCase):
     def setUp(self):

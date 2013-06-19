@@ -1,7 +1,7 @@
 import unittest
 
 from cardsource.cards import InvalidRankError, InvalidSuitError
-from cardsource.blackjack.cards import BJCard
+from cardsource.games.blackjack.cards import BJCard
 
 class TestBJCard(unittest.TestCase):
     def testNoJoker(self):

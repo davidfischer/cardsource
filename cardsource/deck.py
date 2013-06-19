@@ -1,4 +1,4 @@
-from cardsource.cards import Card
+from .cards import Card
 
 class Deck(object):
     def __init__(self):

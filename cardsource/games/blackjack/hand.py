@@ -1,4 +1,4 @@
-from cardsource.blackjack.cards import BJCard
+from . import BJCard
 
 class BJHandError(Exception):
     pass

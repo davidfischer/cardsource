@@ -1,4 +1,4 @@
-from cardsource.blackjack import BJStrategy
+from .. import BJStrategy
 
 class OneDeckFlatBetStrategy(BJStrategy):
     """

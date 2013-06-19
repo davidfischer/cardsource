@@ -1,5 +1,5 @@
-from cardsource.utils import game_input
-from cardsource.blackjack import BJCard, BJDeck, BJHand, BJShoe
+from .utils import game_input
+from . import BJCard, BJDeck, BJHand, BJShoe
 
 class BJStrategy(object):
     """

@@ -1,6 +1,6 @@
 import random
 
-from cardsource.blackjack import BJCard, BJDeck
+from . import BJCard, BJDeck
 
 class BJShoe(object):
     def __init__(self, num_decks=1):
