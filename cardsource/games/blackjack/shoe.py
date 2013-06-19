@@ -2,29 +2,30 @@ import random
 
 from . import BJCard, BJDeck
 
+
 class BJShoe(object):
     def __init__(self, num_decks=1):
         """
         Create and shuffle a dealing shoe made of the correct number of BJDecks
         """
-        
+
         self.cards = []
         self.num_decks = num_decks
         self.reset()
         self.original_size = len(self.cards)
-        
+
     def remaining(self):
         """
         Return the number of remaining cards in the shoe
         """
-        
+
         return len(self.cards)
-    
+
     def pop(self):
         """
         Returns the top card of the shoe or None if the show is empty
         """
-        
+
         if self.remaining() > 0:
             return self.cards.pop()
         return None
@@ -35,18 +36,18 @@ class BJShoe(object):
         """
 
         random.shuffle(self.cards)
-        
+
     def reset(self):
         """
         Recreates the shoe with the correct amount of decks
         """
-        
+
         self.cards = []
-        
+
         for i in xrange(self.num_decks):
             deck = BJDeck()
             self.cards.extend(deck.cards)
-            
+
         self.shuffle()
 
     def remove(self, rank):

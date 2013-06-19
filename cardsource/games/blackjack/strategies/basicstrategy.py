@@ -1,29 +1,30 @@
 from .. import BJStrategy
 
+
 class OneDeckFlatBetStrategy(BJStrategy):
     """
     Implements a basic flat bet (10/hand) strategy that is optimal for:
-    
+
     - 1 deck
     - DAS allowed
     - no late surrender
     - hit soft 17
-    
+
     Basic strategy from http://www.blackjackinfo.com/
     """
-    
+
     def take_insurance(self):
         return False
-    
+
     def bet_amount(self, remaining_bankroll):
         return self.DEFAULT_BET_AMOUNT
-    
+
     def make_decision(self, dealer_upcard, player_hand, can_double=False, can_split=False):
         is_soft = player_hand.is_soft()
         hand_value = player_hand.value()
         upcard_value = dealer_upcard.value()
         splittable = player_hand.splittable() and can_split
-        
+
         if hand_value <= 8 and not splittable:
             return self.HIT
         elif hand_value == 9:
@@ -125,6 +126,5 @@ class OneDeckFlatBetStrategy(BJStrategy):
                     return self.SPLIT
             elif hand_value == 20:
                 return self.STAND
-            
+
         raise RuntimeError('Rule not implemented for hand %s with upcard %s' %(player_hand, dealer_upcard))
-        
