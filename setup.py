@@ -1,23 +1,20 @@
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils import setup
+from setuptools import setup, find_packages
 
 
 long_description = open('README.rst').read()
 
 setup(
-    name = 'cardsource',
-    version = '0.0.1',
-    description = 'A Python library for simulating playing card games',
-    long_description = long_description,
-    author = 'David Fischer',
-    author_email = 'djfische@gmail.com',
-    url = 'https://github.com/davidfischer/cardsource',
-    license = 'BSD',
-    platforms = ['OS Independent'],
-    packages = ['cardsource'],
-    classifiers = [
+    name='cardsource',
+    version='0.0.1',
+    description='A Python library for simulating playing card games',
+    long_description=long_description,
+    author='David Fischer',
+    author_email='djfische@gmail.com',
+    url='https://github.com/davidfischer/cardsource',
+    license='BSD',
+    platforms=['OS Independent'],
+    packages=[p for p in find_packages('.') if p.startswith('cardsource')],
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
