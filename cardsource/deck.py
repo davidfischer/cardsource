@@ -11,7 +11,7 @@ class Deck(object):
         self._cards = [Card('{0}{1}'.format(rank, suit)) \
                 for rank in Card.RANKS for suit in Card.SUITS if rank != 'X']
 
-        for i in xrange(numjokers):
+        for i in range(numjokers):
             self._cards.append(Card('X'))
 
     # Representation methods

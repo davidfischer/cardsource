@@ -44,7 +44,7 @@ class BJShoe(object):
 
         self.cards = []
 
-        for i in xrange(self.num_decks):
+        for i in range(self.num_decks):
             deck = BJDeck()
             self._cards.extend(deck._cards)
 
@@ -55,7 +55,7 @@ class BJShoe(object):
         Removes the bottom card with rank from the deck (all tens are equal) and then shuffles
         """
 
-        for i in xrange(len(self._cards)):
+        for i in range(len(self._cards)):
             if BJCard.VALUES[self._cards[i].rank] == BJCard.VALUES[rank]:
                 card = self._cards.pop(i)
                 self.shuffle()
