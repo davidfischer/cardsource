@@ -1,7 +1,7 @@
 __version__ = (0, 0, 1)
 
 
-from .cards import Card
-from .deck import Deck
-from .errors import CardSourceError
-from .hand import Hand
+from .cards import Card               # noqa
+from .deck import Deck                # noqa
+from .errors import CardSourceError   # noqa
+from .hand import Hand                # noqa

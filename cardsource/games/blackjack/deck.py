@@ -8,5 +8,5 @@ class BJDeck(Deck):
         Represents a 52 card standard blackjack deck
         """
 
-        self._cards = [BJCard('{0}{1}'.format(rank, suit)) for rank in \
-                BJCard.RANKS for suit in BJCard.SUITS]
+        self._cards = [BJCard('{0}{1}'.format(rank, suit))
+                       for rank in BJCard.RANKS for suit in BJCard.SUITS]

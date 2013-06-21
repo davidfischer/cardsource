@@ -1,4 +1,4 @@
-from ... import Card, CardSourceError
+from ... import Card
 
 
 class BJCard(Card):
