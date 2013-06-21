@@ -1,11 +1,11 @@
 import unittest
 
-from cardsource.games.blackjack.deck import BJDeck
+from cardsource.games.blackjack import BJDeck
+
 
 class TestDeck(unittest.TestCase):
-    def testCreate(self):
-        deck = BJDeck()
-        
+    def setUp(self):
+        self.deck = BJDeck()
+
     def testSize(self):
-        deck = BJDeck()
-        self.assertEqual(deck.size(), 52)
+        self.assertEqual(len(self.deck), 52)

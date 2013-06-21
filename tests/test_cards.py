@@ -1,122 +1,49 @@
 import unittest
 
-from cardsource.cards import Card, InvalidRankError, InvalidSuitError
+from cardsource import Card, CardSourceError
+
 
 class TestCards(unittest.TestCase):
-    def testCreateValid(self):
-        c = Card(rank=2, suit='h')
-        c = Card(rank=2, suit='H')
-        c = Card(rank='A', suit='H')
-        c = Card(rank='A', suit='h')
-        c = Card(rank='a', suit='H')
-        c = Card(rank='t', suit='s')
-        c = Card(rank='t', suit='c')
-        c = Card(rank='t', suit='d')
-        c = Card(rank='j', suit='s')
-        c = Card(rank='j', suit='S')
-
     def testInvalidSuit(self):
-        try:
-            c = Card(rank='j', suit='t')
-            self.fail('"t" should fail since it is not a valid suit')
-        except InvalidSuitError:
-            pass
-        
-        try:
-            c = Card(rank='j', suit='a')
-            self.fail('"A" should fail since it is not a valid suit')
-        except InvalidSuitError:
-            pass
-        
-        try:
-            c = Card(rank='Q')
-            self.fail('"Q" requires a suit')
-        except InvalidSuitError:
-            pass
-        
+        self.assertRaises(CardSourceError, Card, 'Jt')
+        self.assertRaises(CardSourceError, Card, 'Ja')
+        self.assertRaises(CardSourceError, Card, 'Q')
+
     def testInvalidRank(self):
-        try:
-            c = Card(rank='Z', suit='c')
-            self.fail('"Z" should fail since it is not a valid rank')
-        except InvalidRankError:
-            pass
-        
-        try:
-            c = Card(rank='w', suit='H')
-            self.fail('"w" should fail since it is not a valid rank')
-        except InvalidRankError:
-            pass
-        
-        try:
-            c = Card(rank=None, suit='H')
-            self.fail('Rank should be required')
-        except InvalidRankError:
-            pass
-        
-    def testJoker(self):
-        c = Card(rank='x')
-        self.assertEqual(str(c), 'X')
-        c = Card(rank='X', suit=None)
-        self.assertEqual(str(c), 'X')
-        c = Card(rank='X', suit='h')
-        self.assertEqual(str(c), 'X')
-        self.assertTrue(c.suit is None)
-        
+        self.assertRaises(CardSourceError, Card, 'Zc')
+        self.assertRaises(CardSourceError, Card, 'wH')
+        self.assertRaises(CardSourceError, Card, 'H')
+        self.assertRaises(CardSourceError, Card, 2)
+        self.assertRaises(CardSourceError, Card, ['2', 'h'])
+
     def testToString(self):
-        c = Card(rank=2, suit='h')
-        self.assertEqual(str(c), '2h')
-        c = Card(rank=2, suit='H')
-        self.assertEqual(str(c), '2h')
-        c = Card(rank='A', suit='H')
-        self.assertEqual(str(c), 'Ah')
-        c = Card(rank='A', suit='h')
-        self.assertEqual(str(c), 'Ah')
-        c = Card(rank='a', suit='H')
-        self.assertEqual(str(c), 'Ah')
-        c = Card(rank='t', suit='s')
-        self.assertEqual(str(c), 'Ts')
-        c = Card(rank='t', suit='c')
-        self.assertEqual(str(c), 'Tc')
-        c = Card(rank='t', suit='d')
-        self.assertEqual(str(c), 'Td')
-        c = Card(rank='j', suit='s')
-        self.assertEqual(str(c), 'Js')
-        c = Card(rank='j', suit='S')
-        self.assertEqual(str(c), 'Js')
-        
-    def testSuited(self):
-        c1 = Card(rank=2, suit='h')
-        c2 = Card(rank=3, suit='H')
-        self.assertTrue(c1.suited(c2))
-        
-        c3 = Card(rank='T', suit='H')
-        self.assertTrue(c3.suited(c1))
-        
-        c4 = Card(rank='X')
-        self.assertFalse(c4.suited(c3))
-        
-        c5 = Card(rank='J', suit='C')
-        self.assertFalse(c5.suited(c4))
-        self.assertFalse(c5.suited(c3))
-        
-    def testEqualRank(self):
-        c1 = Card(rank=2, suit='h')
-        c2 = Card(rank=3, suit='H')
-        self.assertFalse(c1.equal_rank(c2))
-        
-        c3 = Card(rank='T', suit='c')
-        c4 = Card(rank='T', suit='d')
-        self.assertTrue(c4.equal_rank(c3))
-        self.assertTrue(c3.equal_rank(c4))
-        self.assertFalse(c1.equal_rank(c3))
-        self.assertFalse(c1.equal_rank(c4))
-        
-        c5 = Card(rank='X')
-        c6 = Card(rank='X')
-        self.assertTrue(c5.equal_rank(c6))
-        self.assertTrue(c6.equal_rank(c5))
-        self.assertFalse(c1.equal_rank(c5))
-        self.assertFalse(c4.equal_rank(c6))
-    
+        tests = [
+            ('2h', '2h'),
+            ('2H', '2h'),
+            ('aH', 'Ah'),
+            ('AH', 'Ah'),
+            ('ts', 'Ts'),
+            ('xx', 'X'),
+            ('X', 'X'),
+            ('x', 'X'),
+        ]
+
+        for t in tests:
+            self.assertEqual(str(Card(t[0])), t[1])
+
+    def testComparisons(self):
+        self.assertTrue(Card('2h') == '2h')
+        self.assertFalse(Card('2h') == '3h')
+        self.assertTrue('2H' == Card('2h'))
+
+        self.assertTrue(Card('3h') > Card('2h'))
+        self.assertTrue(Card('Ah') > Card('Ts'))
+        self.assertFalse(Card('Ah') < 'Ts')
+        self.assertTrue(Card('Ah') >= Card('As'))
+        self.assertTrue(Card('Ah') >= Card('Ks'))
+        self.assertTrue(Card('Ah') != Card('As'))
+        self.assertTrue(Card('4c') <= Card('Ts'))
+
+
 if __name__ == '__main__':
     unittest.main()

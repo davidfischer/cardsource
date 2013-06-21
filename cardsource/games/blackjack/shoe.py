@@ -9,17 +9,17 @@ class BJShoe(object):
         Create and shuffle a dealing shoe made of the correct number of BJDecks
         """
 
-        self.cards = []
+        self._cards = []
         self.num_decks = num_decks
         self.reset()
-        self.original_size = len(self.cards)
+        self.original_size = len(self._cards)
 
     def remaining(self):
         """
         Return the number of remaining cards in the shoe
         """
 
-        return len(self.cards)
+        return len(self._cards)
 
     def pop(self):
         """
@@ -27,7 +27,7 @@ class BJShoe(object):
         """
 
         if self.remaining() > 0:
-            return self.cards.pop()
+            return self._cards.pop()
         return None
 
     def shuffle(self):
@@ -35,7 +35,7 @@ class BJShoe(object):
         Shuffles the remaining deck
         """
 
-        random.shuffle(self.cards)
+        random.shuffle(self._cards)
 
     def reset(self):
         """
@@ -46,7 +46,7 @@ class BJShoe(object):
 
         for i in xrange(self.num_decks):
             deck = BJDeck()
-            self.cards.extend(deck.cards)
+            self._cards.extend(deck._cards)
 
         self.shuffle()
 
@@ -55,9 +55,9 @@ class BJShoe(object):
         Removes the bottom card with rank from the deck (all tens are equal) and then shuffles
         """
 
-        for i in xrange(len(self.cards)):
-            if BJCard.VALUE_MAPPING[self.cards[i].rank] == BJCard.VALUE_MAPPING[rank]:
-                card = self.cards.pop(i)
+        for i in xrange(len(self._cards)):
+            if BJCard.VALUES[self._cards[i].rank] == BJCard.VALUES[rank]:
+                card = self._cards.pop(i)
                 self.shuffle()
                 return card
 

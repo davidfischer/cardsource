@@ -1,98 +1,98 @@
 import unittest
 
-from cardsource.cards import Card
-from cardsource.games.blackjack import BJCard
-from cardsource.games.blackjack.hand import BJHand, BJHandError
+from cardsource import Card
+from cardsource.games.blackjack import BJCard, BJHand
+
 
 class TestBJHand(unittest.TestCase):
     def setUp(self):
         self.hand1 = BJHand()
-        self.hand1.add_card(BJCard('2', 'c'))
-        self.hand1.add_card(BJCard('4', 'd'))
-        self.hand1.add_card(BJCard('9', 'h'))
-        
+        self.hand1.append('2c')
+        self.hand1.append('4d')
+        self.hand1.append('9h')
+
         self.hand2 = BJHand()
-        self.hand2.add_card(BJCard('2', 's'))
-        self.hand2.add_card(BJCard('J', 's'))
-        self.hand2.add_card(BJCard('T', 's'))
-        
+        self.hand2.append('2s')
+        self.hand2.append('Js')
+        self.hand2.append('Ts')
+
         self.hand3 = BJHand()
-        self.hand3.add_card(BJCard('A', 's'))
-        self.hand3.add_card(BJCard('J', 'd'))
-        self.hand3.add_card(BJCard('T', 's'))
-        
+        self.hand3.append('As')
+        self.hand3.append('Jd')
+        self.hand3.append('Ts')
+
         self.hand4 = BJHand()
-        self.hand4.add_card(BJCard('2', 's'))
-        self.hand4.add_card(BJCard('A', 'd'))
-        self.hand4.add_card(BJCard('A', 's'))
-        self.hand4.add_card(BJCard('A', 'h'))
-        self.hand4.add_card(BJCard('A', 's'))
-        self.hand4.add_card(BJCard('T', 's'))
-        
+        self.hand4.append('2s')
+        self.hand4.append('Ad')
+        self.hand4.append('As')
+        self.hand4.append('Ah')
+        self.hand4.append('As')
+        self.hand4.append('Ts')
+
         self.hand5 = BJHand()
-        self.hand5.add_card(BJCard('2', 's'))
-        self.hand5.add_card(BJCard('5', 'd'))
-        self.hand5.add_card(BJCard('7', 's'))
-        self.hand5.add_card(BJCard('6', 'h'))
-        self.hand5.add_card(BJCard('2', 's'))
-        self.hand5.add_card(BJCard('A', 's'))
-        
+        self.hand5.append('2s')
+        self.hand5.append('5d')
+        self.hand5.append('7s')
+        self.hand5.append('6h')
+        self.hand5.append('2s')
+        self.hand5.append('As')
+
         self.hand6 = BJHand()
-        self.hand6.add_card(BJCard('2', 's'))
-        self.hand6.add_card(BJCard('3', 'd'))
-        self.hand6.add_card(BJCard('4', 's'))
-        self.hand6.add_card(BJCard('3', 'h'))
-        self.hand6.add_card(BJCard('2', 's'))
-        self.hand6.add_card(BJCard('A', 's'))
-        self.hand6.add_card(BJCard('A', 's'))
-        self.hand6.add_card(BJCard('A', 's'))
-        
+        self.hand6.append('2s')
+        self.hand6.append('3d')
+        self.hand6.append('4s')
+        self.hand6.append('3h')
+        self.hand6.append('2s')
+        self.hand6.append('As')
+        self.hand6.append('As')
+        self.hand6.append('As')
+
         self.hand7 = BJHand()
-        self.hand7.add_card(BJCard('9', 's'))
-        self.hand7.add_card(BJCard('A', 's'))
-        
+        self.hand7.append('9s')
+        self.hand7.append('As')
+
         self.hand8 = BJHand()
-        self.hand8.add_card(BJCard('A', 's'))
-        self.hand8.add_card(BJCard('A', 's'))
-        
+        self.hand8.append('As')
+        self.hand8.append('As')
+
         self.hand9 = BJHand()
-        self.hand9.add_card(BJCard('T', 's'))
-        self.hand9.add_card(BJCard('Q', 's'))
-        
+        self.hand9.append('Ts')
+        self.hand9.append('Qs')
+
         self.hand10 = BJHand()
-        self.hand10.add_card(BJCard('4', 's'))
-        self.hand10.add_card(BJCard('3', 's'))
-    
+        self.hand10.append('4s')
+        self.hand10.append('3s')
+
     def testCalculateValue(self):
-        self.assertEqual(self.hand1.value(), 15)
-        self.assertEqual(self.hand2.value(), 22)
-        self.assertEqual(self.hand3.value(), 21)
-        self.assertEqual(self.hand4.value(), 16)
-        self.assertEqual(self.hand5.value(), 23)
-        self.assertEqual(self.hand6.value(), 17)
-        self.assertEqual(self.hand7.value(), 20)
-        self.assertEqual(self.hand8.value(), 12)
-        self.assertEqual(self.hand9.value(), 20)
-        
+        self.assertEqual(int(self.hand1), 15)
+        self.assertEqual(int(self.hand2), 22)
+        self.assertEqual(int(self.hand3), 21)
+        self.assertEqual(int(self.hand4), 16)
+        self.assertEqual(int(self.hand5), 23)
+        self.assertEqual(int(self.hand6), 17)
+        self.assertEqual(int(self.hand7), 20)
+        self.assertEqual(int(self.hand8), 12)
+        self.assertEqual(int(self.hand9), 20)
+
     def testSplittable(self):
         self.assertTrue(self.hand8.splittable())
         self.assertTrue(self.hand9.splittable())
         self.assertFalse(self.hand7.splittable())
         self.assertFalse(self.hand10.splittable())
-        
+
     def testSplit(self):
-        self.assertTrue(self.hand9.size(), 2)
+        self.assertTrue(len(self.hand9), 2)
         split = self.hand9.split()
-        self.assertTrue(self.hand9.size(), 1)
-        self.assertTrue(split.size(), 1)
-        self.assertEqual(split.value(), self.hand9.value())
-        
+        self.assertTrue(len(self.hand9), 1)
+        self.assertTrue(len(split), 1)
+        self.assertEqual(int(split), int(self.hand9))
+
     def testSize(self):
-        self.assertEqual(self.hand10.size(), 2)
-        self.assertEqual(self.hand9.size(), 2)
-        self.assertEqual(self.hand6.size(), 8)
-        self.hand6.reset()
-        self.assertEqual(self.hand6.size(), 0)
+        self.assertEqual(len(self.hand10), 2)
+        self.assertEqual(len(self.hand9), 2)
+        self.assertEqual(len(self.hand6), 8)
+        self.hand6.clear()
+        self.assertEqual(len(self.hand6), 0)
 
     def testIsSoft(self):
         self.assertFalse(self.hand1.is_soft())
@@ -106,10 +106,6 @@ class TestBJHand(unittest.TestCase):
         self.assertFalse(self.hand9.is_soft())
         self.assertFalse(self.hand10.is_soft())
 
-    def testInvalid(self):
-        hand = BJHand()
-        try:
-            hand.add_card(Card('J', 'c'))
-            self.fail('Should not be able to add a Card to a BJHand, must add BJCard')
-        except BJHandError:
-            pass
+
+if __name__ == '__main__':
+    unittest.main()

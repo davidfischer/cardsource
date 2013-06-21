@@ -1,39 +1,49 @@
+from ... import Hand, CardSourceError
+
 from .cards import BJCard
-from .errors import BJHandError
 
 
-class BJHand(object):
+class BJHand(Hand):
     def __init__(self):
-        self.cards = []
+        self._cards = []
         self.doubled = False
 
-    def __repr__(self):
-        return str(self.cards)
+    # Representation methods
+    def __int__(self):
+        """
+        Gets the value of a given hand
+        """
 
-    def __str__(self):
-        return self.__repr__()
+        aces = 0
+        val = 0
 
-    def __len__(self):
-        return len(self.cards)
+        for card in self._cards:
+            if card.rank == 'A':
+                aces += 1
+            val += int(card)
 
-    def add_card(self, card):
+        while val > 21 and aces > 0:
+            val -= 10
+            aces -= 1
+
+        return val
+
+    # Collection methods
+    def append(self, card):
         """
         Adds a BJCard to a blackjack hand
-
-        Raises a BJHandError if the card is not a BJCard
         """
 
-        if card is not None and isinstance(card, BJCard):
-            self.cards.append(card)
-        else:
-            raise BJHandError('Card of type %s is not allowed in a blackjack hand' %str(type(card)))
+        if not isinstance(card, BJCard):
+            card = BJCard(card)
+        self._cards.append(card)
 
     def splittable(self):
         """
         Returns True if the hand can be split and False otherwise
         """
 
-        return len(self.cards) == 2 and self.cards[0].equal_rank(self.cards[1])
+        return len(self._cards) == 2 and self._cards[0] == self._cards[1]
 
     def split(self):
         """
@@ -44,24 +54,10 @@ class BJHand(object):
 
         if self.splittable():
             hand = BJHand()
-            hand.add_card(self.cards.pop())
+            hand.append(self._cards.pop())
             return hand
 
-        raise BJHandError('Unsplittable hand')
-
-    def size(self):
-        """
-        Returns the number of cards in the hand
-        """
-
-        return len(self.cards)
-
-    def reset(self):
-        """
-        Removes all cards from the hand
-        """
-
-        self.cards = []
+        raise CardSourceError('Unsplittable hand')
 
     def is_soft(self):
         """
@@ -71,10 +67,10 @@ class BJHand(object):
         aces = 0
         val = 0
 
-        for card in self.cards:
+        for card in self._cards:
             if card.rank == 'A':
                 aces += 1
-            val += card.value()
+            val += int(card)
 
         while val > 21 and aces > 0:
             val -= 10
@@ -85,27 +81,8 @@ class BJHand(object):
         else:
             return False
 
-    def value(self):
-        """
-        Gets the value of a given hand
-        """
-
-        aces = 0
-        val = 0
-
-        for card in self.cards:
-            if card.rank == 'A':
-                aces += 1
-            val += card.value()
-
-        while val > 21 and aces > 0:
-            val -= 10
-            aces -= 1
-
-        return val
-
     def first_card(self):
-        return self.cards[0]
+        return self._cards[0]
 
     def second_card(self):
-        return self.cards[1]
+        return self._cards[1]

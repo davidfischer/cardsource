@@ -1,28 +1,17 @@
 import unittest
 
-from cardsource.cards import InvalidRankError, InvalidSuitError
+from cardsource import CardSourceError
 from cardsource.games.blackjack.cards import BJCard
+
 
 class TestBJCard(unittest.TestCase):
     def testNoJoker(self):
-        try:
-            c = BJCard(rank='x')
-            self.fail('Jokers are not valid in blackjack')
-        except InvalidRankError:
-            pass
-        
+        self.assertRaises(CardSourceError, BJCard, 'X')
+        self.assertRaises(CardSourceError, BJCard, 'Xx')
+
     def testBasicBJSanity(self):
-        c = BJCard(rank=2, suit='h')
-        self.assertEqual(str(c), '2h')
-        c = BJCard(rank=2, suit='H')
-        self.assertEqual(str(c), '2h')
-        
-    def testBasicBJInvalid(self):
-        try:
-            c = BJCard(rank='j', suit='t')
-            self.fail('"t" should fail since it is not a valid suit')
-        except InvalidSuitError:
-            pass
-        
+        self.assertEqual(str(BJCard('2H')), '2h')
+
+
 if __name__ == '__main__':
     unittest.main()

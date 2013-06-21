@@ -1,11 +1,17 @@
 import unittest
 
-from cardsource.deck import Deck
+from cardsource import Deck
+
 
 class TestDeck(unittest.TestCase):
-    def testCreate(self):
-        deck = Deck()
-        
+    def setUp(self):
+        self.deck = Deck()
+        self.deck_with_jokers = Deck(numjokers=2)
+
     def testSize(self):
-        deck = Deck()
-        self.assertEqual(deck.size(), 54)
+        self.assertEqual(len(self.deck), 52)
+        self.assertEqual(len(self.deck_with_jokers), 54)
+
+
+if __name__ == '__main__':
+    unittest.main()
