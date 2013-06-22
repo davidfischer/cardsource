@@ -3,12 +3,15 @@ import random
 from .cards import Card
 
 
-class Deck(object):
-    def __init__(self, numjokers=0):
-        """
-        Represents a playing card deck optionally with jokers
-        """
+__all__ = ['Deck']
 
+
+class Deck(object):
+    """
+    Represents a playing card deck optionally with jokers
+    """
+
+    def __init__(self, numjokers=0):
         self._cards = [Card('{0}{1}'.format(rank, suit))
                        for rank in Card.RANKS for suit in Card.SUITS
                        if rank != 'X']
@@ -18,7 +21,7 @@ class Deck(object):
 
     # Representation methods
     def __str__(self):
-        return str(self._cards)
+        return "{0} cards left".format(len(self._cards))
 
     def __repr__(self):
         # Subclasses can use this repr with their class name
@@ -30,6 +33,12 @@ class Deck(object):
         Returns the number of cards in the deck
         """
         return len(self._cards)
+
+    def __iter__(self):
+        """
+        Returns an iterator of cards remaining in the deck
+        """
+        return iter(self._card)
 
     # Collection methods
     def pop(self):

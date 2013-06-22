@@ -1,6 +1,6 @@
 import unittest
 
-from cardsource import Hand, CardSourceError
+from cardsource import Hand, Card, CardSourceError
 
 
 class TestHand(unittest.TestCase):
@@ -27,9 +27,17 @@ class TestHand(unittest.TestCase):
         self.assertEqual(len(self.hand1), 0)
 
     def testCount(self):
-        self.assertEqual(self.hand1.count('6s'), 2)
-        self.assertEqual(self.hand1.count('6c'), 0)
-        self.assertEqual(self.hand1.count('AH'), 1)
+        self.assertEqual(self.hand1.count(Card('6s')), 2)
+        self.assertEqual(self.hand1.count(Card('6c')), 0)
+        self.assertEqual(self.hand1.count(Card('AH')), 1)
 
-    def testInvalid(self):
-        self.assertRaises(CardSourceError, self.hand1.append, '6y')
+    def testExtend(self):
+        self.hand1.extend(self.hand2)
+        self.assertEqual(len(self.hand2), 3)
+        self.assertEqual(len(self.hand1), 7)
+
+    def testAdd(self):
+        newhand = self.hand1 + self.hand2
+        self.assertEqual(len(self.hand1), 4)
+        self.assertEqual(len(self.hand2), 3)
+        self.assertEqual(len(newhand), 7)

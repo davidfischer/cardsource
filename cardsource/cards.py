@@ -1,7 +1,14 @@
 from .errors import CardSourceError
 
 
+__all__ = ['Card']
+
+
 class Card(object):
+    """
+    Represents playing cards
+    """
+
     RANKS = '23456789TJQKAX'
     SUITS = 'cdhs'
 
@@ -36,7 +43,7 @@ class Card(object):
 
     # Representation methods
     def __repr__(self):
-        return '<Card: {0}>'.format(self)
+        return '<{0}: {1}>'.format(self.__class__.__name__, self)
 
     def __str__(self):
         if self.suit is not None:
@@ -49,31 +56,29 @@ class Card(object):
 
     # Comparison methods
     def __eq__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
+        if type(self) != type(other):
+            return False
         return self.rank == other.rank and self.suit == other.suit
 
     def __ne__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
         return not self.__eq__(other)
 
     def __gt__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
+        if type(self) != type(other):
+            raise TypeError("Cards must be compared with other cards")
         return int(self) > int(other)
 
     def __lt__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
+        if type(self) != type(other):
+            raise TypeError("Cards must be compared with other cards")
         return int(self) < int(other)
 
     def __ge__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
+        if type(self) != type(other):
+            raise TypeError("Cards must be compared with other cards")
         return int(self) >= int(other)
 
     def __le__(self, other):
-        if not isinstance(other, Card):
-            other = Card(other)
+        if type(self) != type(other):
+            raise TypeError("Cards must be compared with other cards")
         return int(self) <= int(other)

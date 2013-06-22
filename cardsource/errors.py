@@ -1,2 +1,4 @@
 class CardSourceError(Exception):
-    pass
+    """
+    All cardsource errors are instances of or derive from this exception
+    """

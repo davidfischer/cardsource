@@ -1,7 +1,14 @@
 from .cards import Card
 
 
+__all__ = ['Hand']
+
+
 class Hand(object):
+    """
+    A playing card game hand.
+    """
+
     def __init__(self):
         self._cards = []
 
@@ -16,10 +23,24 @@ class Hand(object):
     def __len__(self):
         return len(self._cards)
 
+    def __iter__(self):
+        return iter(self._cards)
+
+    # Arithmetic methods
+    def __add__(self, otherhand):
+        newhand = Hand()
+        newhand.extend(self)
+        newhand.extend(otherhand)
+        return newhand
+
     # Collection methods
     def append(self, card):
         """
         Adds a Card to the hand
+
+        This class can be overridden in subclasses to ensure that the correct
+        type of cards are added to the hand. Hands should not contain both
+        instances of ``Card`` and subclasses of ``Card``.
         """
 
         if not isinstance(card, Card):
@@ -35,12 +56,12 @@ class Hand(object):
         self._cards = []
         return result
 
-    def extend(self, iterable):
+    def extend(self, otherhand):
         """
-        Extends hand by appending cards from the iterable
+        Extends hand by appending cards from another hand
         """
 
-        for card in iterable:
+        for card in otherhand:
             self.append(card)
 
     def count(self, card):
