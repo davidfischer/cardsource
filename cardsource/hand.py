@@ -33,6 +33,9 @@ class Hand(object):
         newhand.extend(otherhand)
         return newhand
 
+    def __iadd__(self, otherhand):
+        return self + otherhand
+
     # Collection methods
     def append(self, card):
         """

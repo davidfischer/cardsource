@@ -41,3 +41,8 @@ class TestHand(unittest.TestCase):
         self.assertEqual(len(self.hand1), 4)
         self.assertEqual(len(self.hand2), 3)
         self.assertEqual(len(newhand), 7)
+
+    def testIAdd(self):
+        self.hand1 += self.hand2
+        self.assertEqual(len(self.hand2), 3)
+        self.assertEqual(len(self.hand1), 7)
