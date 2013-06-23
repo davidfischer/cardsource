@@ -2,7 +2,9 @@ Cardsource: a playing card simulation library!
 ==============================================
 
 
-Cardsource makes prototyping and simulating card games easy.
+Cardsource is a well-tested library that can be used to build your own
+playing card game or to create Monte Carlo simulations of existing card
+games.
 
 
 Contents:
