@@ -1,4 +1,5 @@
 import random
+import sys
 
 from .cards import Card
 
@@ -40,9 +41,29 @@ class Deck(object):
         """
         return iter(self._cards)
 
+    def __getitem__(self, key):
+        return self._cards[key]
+
+    def __getslice__(self, i, j):
+        d = Deck()
+        d.clear()
+
+        if j >= sys.maxint:
+            j = len(self)
+
+        for k in range(i, j):
+            if k >= len(self):
+                break
+            d._cards.append(self[k])
+
+        return d
+
     # Collection methods
     def pop(self):
         return self._cards.pop()
+
+    def clear(self):
+        self._cards = []
 
     # Deck specific methods
     def shuffle(self):
