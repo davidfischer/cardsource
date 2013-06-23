@@ -1,5 +1,5 @@
+from collections import deque
 import random
-import sys
 
 from .cards import Card
 
@@ -13,9 +13,9 @@ class Deck(object):
     """
 
     def __init__(self, numjokers=0):
-        self._cards = [Card('{0}{1}'.format(rank, suit))
-                       for rank in Card.RANKS for suit in Card.SUITS
-                       if rank != 'X']
+        self._cards = deque([Card('{0}{1}'.format(rank, suit))
+                             for rank in Card.RANKS for suit in Card.SUITS
+                             if rank != 'X'])
 
         for i in range(numjokers):
             self._cards.append(Card('X'))
@@ -42,13 +42,20 @@ class Deck(object):
         return iter(self._cards)
 
     def __getitem__(self, key):
-        return self._cards[key]
+        if type(key) is slice:
+            return deque([self._cards[n] for n in
+                         range(key.start or 0,
+                               key.stop or len(self),
+                               key.step or 1)
+                         if n < len(self)])
+        else:
+            return self._cards[key]
 
     def __getslice__(self, i, j):
         d = Deck()
         d.clear()
 
-        if j >= sys.maxint:
+        if j >= len(self):
             j = len(self)
 
         for k in range(i, j):
@@ -63,7 +70,7 @@ class Deck(object):
         return self._cards.pop()
 
     def clear(self):
-        self._cards = []
+        self._cards = deque()
 
     # Deck specific methods
     def shuffle(self):
