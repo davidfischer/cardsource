@@ -38,7 +38,7 @@ class Deck(object):
         """
         Returns an iterator of cards remaining in the deck
         """
-        return iter(self._card)
+        return iter(self._cards)
 
     # Collection methods
     def pop(self):
