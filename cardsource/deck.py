@@ -69,6 +69,16 @@ class Deck(object):
     def pop(self):
         return self._cards.pop()
 
+    def append(self, card):
+        if not isinstance(card, Card):
+            card = Card(card)
+        self._cards.append(card)
+
+    def appendleft(self, card):
+        if not isinstance(card, Card):
+            card = Card(card)
+        self._cards.appendleft(card)
+
     def clear(self):
         self._cards = deque()
 
