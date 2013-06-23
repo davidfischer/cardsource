@@ -46,4 +46,4 @@ class Deck(object):
 
     # Deck specific methods
     def shuffle(self):
-        random.shuffle(self.cards)
+        random.shuffle(self._cards)
