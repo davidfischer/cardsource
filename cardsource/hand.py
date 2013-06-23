@@ -14,7 +14,7 @@ class Hand(object):
 
     # Representation methods
     def __repr__(self):
-        return '<{0}: {1}>'.format(self.__class__.__name__, self.self)
+        return '<{0}: {1}>'.format(self.__class__.__name__, self._cards)
 
     def __str__(self):
         return str(sorted(self._cards))
