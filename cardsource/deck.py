@@ -48,10 +48,7 @@ class Deck(object):
     def __getitem__(self, key):
         if type(key) is slice:
             return deque([self._cards[n] for n in
-                         range(key.start or 0,
-                               key.stop or len(self),
-                               key.step or 1)
-                         if n < len(self)])
+                         range(*key.indices(len(self)))])
         else:
             return self._cards[key]
 

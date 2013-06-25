@@ -22,6 +22,8 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(len(self.deck[100:]), 0)
         self.assertEqual(len(self.deck[:1000]), 52)
 
+        self.assertEqual(len(self.deck[-1:]), 1)
+
 
 if __name__ == '__main__':
     unittest.main()

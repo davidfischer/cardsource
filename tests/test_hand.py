@@ -46,3 +46,8 @@ class TestHand(unittest.TestCase):
         self.hand1 += self.hand2
         self.assertEqual(len(self.hand2), 3)
         self.assertEqual(len(self.hand1), 7)
+
+    def testSlice(self):
+        self.assertEqual(self.hand1[0], Card('2h'))
+        self.assertEqual(self.hand1[-1], Card('6s'))
+        self.assertEqual(len(self.hand2[-2:]), 2)

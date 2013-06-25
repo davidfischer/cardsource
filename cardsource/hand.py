@@ -32,6 +32,26 @@ class Hand(object):
     def __iter__(self):
         return iter(self._cards)
 
+    def __getitem__(self, key):
+        if type(key) is slice:
+            return [self._cards[n] for n in
+                    range(*key.indices(len(self)))]
+        else:
+            return self._cards[key]
+
+    def __getslice__(self, i, j):
+        h = Hand()
+
+        if j >= len(self):
+            j = len(self)
+
+        for k in range(i, j):
+            if k >= len(self):
+                break
+            h.append(self[k])
+
+        return h
+
     # Arithmetic methods
     def __add__(self, otherhand):
         newhand = Hand()
