@@ -1,4 +1,35 @@
 from setuptools import setup, find_packages
+from distutils.core import Command
+
+
+class PerformanceCommand(Command):
+    description = 'Runs performance metrics'
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import timeit
+        performance = [
+            {
+                'desc': 'Aces count',
+                'stmt': 'performance.aces_count()',
+                'setup': 'import performance',
+                'number': 1,
+                'repeat': 10,
+            }
+        ]
+
+        for perf in performance:
+            timing = timeit.repeat(perf['stmt'],
+                                   setup=perf['setup'],
+                                   number=perf['number'],
+                                   repeat=perf['repeat'])
+            print('{0} took {1:.4}s'.format(perf['desc'], min(timing)))
 
 
 long_description = open('README.rst').read()
@@ -27,4 +58,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     test_suite='tests',
+    cmdclass={
+        'performance': PerformanceCommand
+    }
 )
