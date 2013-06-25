@@ -9,7 +9,11 @@ __all__ = ['Deck']
 
 class Deck(object):
     """
-    Represents a playing card deck optionally with jokers
+    Represents a playing card deck optionally with jokers. Each member is
+    an instance of :class:`cardsource.cards.Card`.
+
+    A ``Deck`` is an iterable object that supports a number of standard
+    Python operations like indexing, iteration and slicing.
     """
 
     def __init__(self, numjokers=0):
@@ -67,21 +71,48 @@ class Deck(object):
 
     # Collection methods
     def pop(self):
+        """
+        Removes and returns the top card in the deck
+
+        :raises: IndexError if the deck is empty
+        :returns: the top card in the deck
+        :rtype: :class:`cardsource.cards.Card`
+        """
         return self._cards.pop()
 
     def append(self, card):
+        """
+        Put a card on the top of the deck
+
+        :param card: the card to add
+        :type card: :class:`cardsource.cards.Card`
+        """
         if not isinstance(card, Card):
             card = Card(card)
         self._cards.append(card)
 
     def appendleft(self, card):
+        """
+        Put a card on the bottom of the deck
+
+        :param card: the card to add
+        :type card: :class:`cardsource.cards.Card`
+        """
         if not isinstance(card, Card):
             card = Card(card)
         self._cards.appendleft(card)
 
     def clear(self):
+        """
+        Remove all cards in the deck
+        """
         self._cards = deque()
 
     # Deck specific methods
     def shuffle(self):
+        """
+        Shuffle the deck
+
+        Uses ``random.shuffle``
+        """
         random.shuffle(self._cards)

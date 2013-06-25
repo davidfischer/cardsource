@@ -6,7 +6,13 @@ __all__ = ['Hand']
 
 class Hand(object):
     """
-    A playing card game hand.
+    Represents a playing card game hand containing instances of
+    :class:`cardsource.cards.Card`
+
+    A ``Hand`` is an iterable Python object that supports being added
+    to other hands as well as other common iterable operations. Hands
+    are not directly comparable but this is common in subclasses of
+    ``Hand``.
     """
 
     def __init__(self):
@@ -44,6 +50,9 @@ class Hand(object):
         This class can be overridden in subclasses to ensure that the correct
         type of cards are added to the hand. Hands should not contain both
         instances of ``Card`` and subclasses of ``Card``.
+
+        :param card: the card to add
+        :type card: :class:`cardsource.cards.Card`
         """
 
         if not isinstance(card, Card):
@@ -52,16 +61,17 @@ class Hand(object):
 
     def clear(self):
         """
-        Removes all cards from the hand and returns the list of cards
+        Removes all cards from the hand
         """
 
-        result = self._cards
         self._cards = []
-        return result
 
     def extend(self, otherhand):
         """
         Extends hand by appending cards from another hand
+
+        :param card: the hand to append to this hand
+        :type card: :class:`cardsource.hand.Hand`
         """
 
         for card in otherhand:
@@ -69,7 +79,12 @@ class Hand(object):
 
     def count(self, card):
         """
-        Returns the number of instances of the exact specified card
+        Returns the number of instances of the specified card
+
+        :param card: the card to search for
+        :type card: :class:`cardsource.cards.Card`
+        :rtype: int
+        :returns: the number of instances of the specified card
         """
 
         num = 0

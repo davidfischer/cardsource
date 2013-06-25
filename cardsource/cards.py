@@ -6,17 +6,20 @@ __all__ = ['Card']
 
 class Card(object):
     """
-    Represents playing cards
+    Represents a single playing card
+
+    A ``Card`` object supports a number of operations.
+
+    When compared to another card, a card is greater than another card
+    if the rank (A, 7, 2) is higher than the other card's rank. Suits are
+    not considered. Jokers are higher than any card. For equivalence,
+    both suit and rank must be equal for the objects to be equal.
     """
 
     RANKS = '23456789TJQKAX'
     SUITS = 'cdhs'
 
     def __init__(self, value):
-        """
-        A playing card object
-        """
-
         value = str(value)
         if len(value) > 2 or len(value) < 1:
             raise CardSourceError('Invalid card "{0}"'.format(value))
