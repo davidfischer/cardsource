@@ -8,9 +8,9 @@ Examples
 .. code-block:: python
 
     """
-    Implements the game of WAR using the cardsource library. The result of a game
-    of WAR is entirely determined by original position. It is also
-    possible for the game to continue forever.
+    Implements the game of WAR. The result of a game of WAR is entirely
+    determined by original position. It is also possible that the initial
+    state results in a neverending game.
 
     See: http://en.wikipedia.org/wiki/War_(card_game)
     """
